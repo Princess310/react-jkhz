@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import CSSTransitionGroup from 'react-addons-css-transition-group';
-import Button from 'react-md/lib/Buttons/Button';
 import BottomNavigation from 'react-md/lib/BottomNavigations';
 
 const links = [{
@@ -46,20 +45,19 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       visible: true,
     };
 
-    this._handleNavChange = this._handleNavChange.bind(this);
+    this.handleNavChange = this.handleNavChange.bind(this);
   }
 
-  _handleNavChange(activeIndex) {
+  handleNavChange(activeIndex) {
     this.setState({ activeIndex, className: themeClassNames[activeIndex] });
   }
 
   render() {
-    const { activeIndex, className, visible } = this.state;
+    const { activeIndex } = this.state;
 
     return (
       <div>
         <CSSTransitionGroup
-          ref={this._setContent}
           component="main"
           className="toolbar-offset"
           transitionName="md-cross-fade"
@@ -72,7 +70,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
           links={links}
           colored
           activeIndex={activeIndex}
-          onNavChange={this._handleNavChange}
+          onNavChange={this.handleNavChange}
         />
       </div>
     );
@@ -83,7 +81,9 @@ HomePage.propTypes = {
 };
 
 export function mapDispatchToProps(dispatch) {
-  return {}
+  return {
+    dispatch,
+  };
 }
 
 const mapStateToProps = createStructuredSelector({
