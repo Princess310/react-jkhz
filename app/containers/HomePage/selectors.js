@@ -4,14 +4,13 @@
 
 import { createSelector } from 'reselect';
 
-const selectHome = (state) => state.get('home');
+const selectAppGlobale = (state) => state.get('global');
 
-const makeSelectUsername = () => createSelector(
-  selectHome,
-  (homeState) => homeState.get('username')
+const makeSelectCurrentUser = () => createSelector(
+  selectAppGlobale,
+  (globalState) => globalState.get('currentUser')
 );
 
 export {
-  selectHome,
-  makeSelectUsername,
+  makeSelectCurrentUser,
 };

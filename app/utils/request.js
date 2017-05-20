@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 
-const API_ROOT = 'https://jkhz-test.alijian.net/index.php?r=';
-const WEB_ROOT = 'http://wap-jkhz-test.alijian.net/';
+const API_ROOT = 'http://jkhz-api.test.alijian.net/index.php?r=';
+const WEB_ROOT = 'http://jkhz-web.test.alijian.net/';
 
 const fetchDao = {
   doGet(url, params) {

@@ -6,19 +6,20 @@
  */
 import { addLocaleData } from 'react-intl';
 import enLocaleData from 'react-intl/locale-data/en';
-import deLocaleData from 'react-intl/locale-data/de';
+import zhLocaleData from 'react-intl/locale-data/zh';
+// import allData from 'react-intl/locale-data/index';
 
 import { DEFAULT_LOCALE } from '../app/containers/App/constants';
 
 import enTranslationMessages from './translations/en.json';
-import deTranslationMessages from './translations/de.json';
+import zhTranslationMessages from './translations/zh.json';
 
 addLocaleData(enLocaleData);
-addLocaleData(deLocaleData);
+addLocaleData(zhLocaleData);
 
 export const appLocales = [
+  'zh',
   'en',
-  'de',
 ];
 
 export const formatTranslationMessages = (locale, messages) => {
@@ -34,6 +35,6 @@ export const formatTranslationMessages = (locale, messages) => {
 };
 
 export const translationMessages = {
+  zh: formatTranslationMessages('zh', zhTranslationMessages),
   en: formatTranslationMessages('en', enTranslationMessages),
-  de: formatTranslationMessages('de', deTranslationMessages),
 };

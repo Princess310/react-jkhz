@@ -41,37 +41,18 @@ export default function createRoutes(store) {
     }, {
       path: 'login',
       name: 'loginPage',
-      onEnter(nextState, replace, callback) {
-        const importModules = import('containers/LoginPage/sagas');
-
-        importModules.then((sagas) => {
-          if (this.loadedSagas) {
-            callback();
-            return;
-          }
-
-          this.loadedSagas = injectSagas(sagas.default);
-          callback();
-        });
-
-        importModules.catch(errorLoading);
-      },
-      onLeave() {
-        if (this.loadedSagas) {
-          this.loadedSagas.forEach((saga) => saga.cancel());
-          delete this.loadedSagas;
-        }
-      },
       getComponent(nextState, cb) {
         const importModules = Promise.all([
           import('containers/LoginPage/reducer'),
+          import('containers/LoginPage/sagas'),
           import('containers/LoginPage'),
         ]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([reducer, component]) => {
+        importModules.then(([reducer, sagas, component]) => {
           injectReducer('loginPage', reducer.default);
+          injectSagas(sagas.default);
           renderRoute(component);
         });
 

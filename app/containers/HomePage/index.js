@@ -4,12 +4,19 @@
  * This is the first thing users see of our App, at the '/' route
  */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import BottomNavigation from 'react-md/lib/BottomNavigations';
+
+import { makeSelectCurrentUser } from './selectors';
+import {
+  fetchUser,
+} from './actions';
+
+import UserCenter from '../UserCenter';
 
 const links = [{
   label: '动态',
@@ -31,7 +38,7 @@ const contents = [
   <div key="business">动态</div>,
   <div key="message">消息</div>,
   <div key="dashboard">人脉</div>,
-  <div key="mine">个人中心</div>,
+  <UserCenter />,
 ];
 
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -48,6 +55,14 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     this.handleNavChange = this.handleNavChange.bind(this);
   }
 
+  componentWillMount() {
+    const { currentUser, getUser } = this.props;
+
+    if (!currentUser.id) {
+      getUser();
+    }
+  }
+
   handleNavChange(activeIndex) {
     this.setState({ activeIndex, className: themeClassNames[activeIndex] });
   }
@@ -57,15 +72,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
 
     return (
       <div>
-        <CSSTransitionGroup
-          component="main"
-          className="toolbar-offset"
-          transitionName="md-cross-fade"
-          transitionEnterTimeout={300}
-          transitionLeave={false}
-        >
-          {contents[activeIndex]}
-        </CSSTransitionGroup>
+        {contents[activeIndex]}
         <BottomNavigation
           links={links}
           colored
@@ -78,15 +85,18 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
 }
 
 HomePage.propTypes = {
+  getUser: PropTypes.func,
+  currentUser: PropTypes.object,
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    getUser: () => dispatch(fetchUser()),
   };
 }
 
 const mapStateToProps = createStructuredSelector({
+  currentUser: makeSelectCurrentUser(),
 });
 
 // Wrap the component to inject dispatch and state into it
