@@ -41,9 +41,22 @@ const SubInfo = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 36px;
+  height: 100%;
   width: 50%;
 `;
+
+const ActionWrapper = styled(Paper)`
+  display: flex;
+  margin-bottom: 16px;
+  background-color: ${pallete.white};
+  height: 40px;
+`;
+
+const actionBtnStyle = {
+  margin: 0,
+  height: '100%',
+  width: '50%',
+};
 
 export class UserCenter extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   state = {
@@ -55,16 +68,8 @@ export class UserCenter extends React.PureComponent { // eslint-disable-line rea
     const { currentUser } = this.props;
 
     return (
-      <div>
-        <Toolbar
-          colored
-          nav={<Button key="search" icon>search</Button>}
-          actions={<Button icon key="search" iconClassName="fa fa-cog" />}
-          fixed
-          style={{ height: imgHeight }}
-          zDepth={1}
-          className="flexible-toolbar-user-center"
-        >
+      <div className="user-center">
+        <div className="user-info-bg">
           <div className="flexible-toolbar-img-container">
             <img
               key="img"
@@ -90,18 +95,24 @@ export class UserCenter extends React.PureComponent { // eslint-disable-line rea
               <div className="user-info-item">{currentUser.intro}</div>
             </div>
           </div>
-        </Toolbar>
+          <Button icon key="cog" className="action-right-btn" iconClassName="fa fa-cog" />
+        </div>
 
         <div className="user-center-actions">
-          <SubInfoWrapper zDepth={1}>
+          <SubInfoWrapper>
             <SubInfo className="user-sub-info-item">
               活跃度：<span style={{color: pallete.theme}}>{currentUser.influence}</span>
             </SubInfo>
-            <SubInfo>
+            <SubInfo className="user-sub-info-item">
               影响力：<ExpProgress progress={currentUser.integrity_progress} />
               <span style={{ marginLeft: '4px', color: pallete.text.yellow }}>V{currentUser.integrity_level}</span>
             </SubInfo>
           </SubInfoWrapper>
+
+          <ActionWrapper zDepth={1}>
+            <Button flat label="编辑资料" style={actionBtnStyle} className="user-sub-info-item" />
+            <Button flat label="业务介绍" style={actionBtnStyle} className="user-sub-info-item" />
+          </ActionWrapper>
 
           <List className="md-cell md-paper md-paper--1 user-ceter-list">
             <ListItem
@@ -132,6 +143,21 @@ export class UserCenter extends React.PureComponent { // eslint-disable-line rea
               primaryText="我的收藏"
               leftIcon={<FontIcon key="star_border" forceSize={22}>star_border</FontIcon>}
               rightIcon={<FontIcon key="chevron_right">chevron_right</FontIcon>}
+            />
+          </List>
+
+          <List className="md-cell md-paper md-paper--1 user-ceter-list" style={{ marginTop: '16px' }}>
+            <ListItem
+              primaryText="成为认证用户"
+              leftIcon={<FontIcon key="supervisor_account">supervisor_account</FontIcon>}
+              rightIcon={<FontIcon key="chevron_right">chevron_right</FontIcon>}
+            />
+          </List>
+
+          <List className="md-cell md-paper md-paper--1 user-ceter-list" style={{ marginTop: '16px' }}>
+            <ListItem
+              primaryText="邀请好友帮您增加活跃度"
+              tileStyle={{textAlign: 'center'}}
             />
           </List>
         </div>

@@ -10,13 +10,27 @@ import { createStructuredSelector } from 'reselect';
 
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import BottomNavigation from 'react-md/lib/BottomNavigations';
+import styled from 'styled-components';
 
 import { makeSelectCurrentUser } from './selectors';
 import {
   fetchUser,
 } from './actions';
+// business actions
+import { fetchMomemtsRoleList } from 'containers/Business/actions';
 
+import Business from '../Business';
 import UserCenter from '../UserCenter';
+
+const ContentWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 56px;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+`;
 
 const links = [{
   label: '动态',
@@ -35,7 +49,7 @@ const links = [{
 const themeClassNames = ['movies-and-tv', 'music', 'book', 'news-stand'];
 
 const contents = [
-  <div key="business">动态</div>,
+  <Business />,
   <div key="message">消息</div>,
   <div key="dashboard">人脉</div>,
   <UserCenter />,
@@ -56,10 +70,11 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
   }
 
   componentWillMount() {
-    const { currentUser, getUser } = this.props;
+    const { currentUser, getUser, getRoleList } = this.props;
 
     if (!currentUser.id) {
       getUser();
+      getRoleList();
     }
   }
 
@@ -72,7 +87,9 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
 
     return (
       <div>
-        {contents[activeIndex]}
+        <ContentWrapper>
+          {contents[activeIndex]}
+        </ContentWrapper>
         <BottomNavigation
           links={links}
           colored
@@ -86,12 +103,14 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
 
 HomePage.propTypes = {
   getUser: PropTypes.func,
+  getRoleList: PropTypes.func,
   currentUser: PropTypes.object,
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
     getUser: () => dispatch(fetchUser()),
+    getRoleList: () => dispatch(fetchMomemtsRoleList()),
   };
 }
 

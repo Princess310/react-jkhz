@@ -24,14 +24,21 @@ export default function createRoutes(store) {
         const importModules = Promise.all([
           import('containers/HomePage/reducer'),
           import('containers/HomePage/sagas'),
+
+          import('containers/Business/reducer'),
+          import('containers/Business/sagas'),
+
           import('containers/HomePage'),
         ]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([reducer, sagas, component]) => {
+        importModules.then(([reducer, sagas, businessReducer, businessSagas, component]) => {
           injectReducer('home', reducer.default);
           injectSagas(sagas.default);
+
+          injectReducer('business', businessReducer.default);
+          injectSagas(businessSagas.default);
 
           renderRoute(component);
         });

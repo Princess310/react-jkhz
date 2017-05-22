@@ -1,6 +1,15 @@
-.flexible-toolbar-user-center {
-  .md-btn, .md-title {
-    z-index: 1;
+.user-info-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 230px;
+
+  .action-right-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #fff;
   }
 }
 
@@ -30,6 +39,8 @@
   .user-info-item {
     margin-top: 12px;
     font-size: 14px;
+    color: #fff;
+
     .info-item {
       &:first-child {
         padding-right: 8px;
@@ -44,6 +55,13 @@
 }
 .user-center-actions {
   margin-top: 230px;
+  margin-bottom: 15px;
+
+  .user-sub-info-item {
+    &:last-child {
+      border-left: 1px #f0f0f0 solid;
+    }
+  }
 }
 .user-ceter-list {
   margin: 0;
